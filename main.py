@@ -2,6 +2,7 @@ from Model import Model
 from tensorflow.keras.datasets import mnist
 from tensorflow.keras.utils import to_categorical
 
+
 if __name__ == "__main__":
     # Load data
     (x_train, y_train), (x_test, y_test) = mnist.load_data()
@@ -16,7 +17,7 @@ if __name__ == "__main__":
 
     # Build model
     model = Model()
-    model.add_layer(in_dim=28 * 28, out_dim=500, activation="sigmoid")
+    model.add_layer(in_dim=28 * 28, out_dim=500, activation="tanh")
     model.add_layer(out_dim=500, activation="sigmoid")
     model.add_layer(out_dim=10, activation="softmax")
 
@@ -24,7 +25,7 @@ if __name__ == "__main__":
     model.compile(loss="ce")
 
     # Train model
-    model.fit(x_train, y_train, batch_size=128, epochs=10)
+    model.fit(x_train[:4000], y_train[:4000], batch_size=64, epochs=5)
 
     # Predict and evaluate
     loss, accuracy = model.evaluate(x_test, y_test)

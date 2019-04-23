@@ -1,4 +1,5 @@
 import numpy as np
+from tqdm import tqdm
 
 
 # Activation functions.
@@ -29,7 +30,7 @@ def __softmax(x: np.ndarray):  # softmax
         return x / np.sum(x)
 
 
-# derivatives of activation functions.
+# Derivatives of activation functions.
 # Input an array.
 # Returns an array.
 def __sigmoid_diff(y: np.ndarray):  # derivative of sigmoid
@@ -48,8 +49,9 @@ def __relu_diff(y: np.ndarray):  # derivative of relu
 # This part is a little different from other derivatives.
 # Use Jacobian method... actually this part of code won't be executed.
 def __softmax_diff(y: np.ndarray):  # derivative of softmax
-    _tmp = y.reshape(-1, 1)
-    return np.diagflat(_tmp) - np.dot(_tmp, _tmp.T)
+    pass
+    # _tmp = y.reshape(-1, 1)
+    # return np.diagflat(_tmp) - np.dot(_tmp, _tmp.T)
 
 
 # Loss functions.
@@ -92,12 +94,16 @@ def shuffle2(x: np.ndarray, y: np.ndarray):
 
 
 # Make batches.
+# Add a progress bar to visualize the process.
 def batch(x: np.ndarray, y: np.ndarray, size: int):
     start, end = 0, len(x)
+    p = tqdm(total=end // size + 1)
     while start < end:
         curr = min([start + size, end])
         yield x[start:curr], y[start:curr]
+        p.update(1)
         start = curr
+    p.close()
 
 
 # Activation function set

@@ -19,24 +19,17 @@ class Neuron:
     # X: n * 1 array, mean of a mini-batch.
     # Returns grad for previous layer.
     def backward(self, grad_batch: np.ndarray, x: np.ndarray):
-        m, diff_w = len(x), np.zeros(self.__w.shape)
+        m = len(x)
         res = np.outer(grad_batch, self.__w)
+        # Mini-batch
+        diff_w = np.zeros(len(self.__w))
+        diff_b = np.mean(grad_batch)
         for i in range(m):
-            diff_w -= grad_batch[i] * x[i]
-
-        # diff_w is mean of grad * x for each case xi.
-        # diff_b is mean of grad * 2
+            diff_w += grad_batch[i] * x[i]
         diff_w /= m
-        diff_b = grad_batch.sum() * -1.0
-
-        # Use mean of grad_batch as the grad for this batch.
-        grad = diff_b / m
-        diff_b = 2 * grad
-
-        # Use adagrad to optimize learning rate.
-        self.__grad_sum += grad ** 2
+        self.__grad_sum += diff_b ** 2
         curr_rate = self.__rate / np.sqrt(self.__grad_sum)
-        self.__w -= curr_rate * diff_w
-        self.__b -= curr_rate * diff_b
-        # Return grads for previous layer.
+        self.__w -= diff_w * curr_rate
+        self.__b -= diff_b * curr_rate
+
         return res

@@ -80,14 +80,16 @@ class Model:
             start = time.time()
             for x_batch, y_batch in batch(x, y, batch_size):
                 y_pred = self.predict(x_batch)
+                # curr_loss = self.__loss(y_pred, y_batch)
+                # print(curr_loss)
+                # loss += curr_loss
                 loss += self.__loss(y_pred, y_batch)
                 grad_batch = self.__loss_diff(y_pred, y_batch)
                 # Improve the process for ce after softmax.
                 grad_batch = self.__layers[-1].backward(grad_batch, improved=improved)
-                for layer in self.__layers[::-2]:
+                for layer in self.__layers[-2::-1]:
                     grad_batch = layer.backward(grad_batch)
-            print("Total loss for epoch {}: {}, time cost: {} secs"\
-                  .format(i, loss, time.time() - start))
+            print("\nTotal loss for epoch {}: {}, time cost: {} secs".format(i, loss, time.time() - start))
 
     # Calculate as a batch, not single values.
     def predict(self, x: np.ndarray):
@@ -105,7 +107,7 @@ class Model:
     # Calculate ratio of correct predictions.
     def __accuracy(self, y_pred: np.ndarray, y: np.ndarray):
         compare = y_pred.argmax(axis=1) - y.argmax(axis=1)
-        return np.count_nonzero(compare==0) / len(y)
+        return np.count_nonzero(compare == 0) / len(y)
 
     @property
     def depth(self):
