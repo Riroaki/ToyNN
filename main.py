@@ -1,7 +1,6 @@
-from Model import Model
+from Network import Model
 from tensorflow.keras.datasets import mnist
 from tensorflow.keras.utils import to_categorical
-
 
 if __name__ == "__main__":
     # Load data
@@ -22,10 +21,10 @@ if __name__ == "__main__":
     model.add_layer(out_dim=10, activation="softmax")
 
     # Compile model
-    model.compile(loss="ce")
+    model.compile(loss="cross entropy")
 
     # Train model
-    model.fit(x_train[:4000], y_train[:4000], batch_size=64, epochs=5)
+    model.fit(x_train, y_train, batch_size=256, epochs=5)
 
     # Predict and evaluate
     loss, accuracy = model.evaluate(x_test, y_test)

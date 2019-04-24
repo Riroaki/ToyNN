@@ -6,6 +6,7 @@
       <w>exps</w>
       <w>jacobian</w>
       <w>mbgd</w>
+      <w>nabla</w>
       <w>pred</w>
       <w>relu</w>
       <w>softmax</w>

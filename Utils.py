@@ -126,15 +126,15 @@ act_diff_set = {
 
 # Loss function set
 loss_set = {
-    "ce": __cross_entropy,
-    "mse": __mean_square_error,
-    "mae": __mean_absolute_error
+    "cross entropy": __cross_entropy,
+    "mean square error": __mean_square_error,
+    "mean absolute error": __mean_absolute_error
 }
 
 # derivatives set of loss functions
 loss_diff_set = {
-    "ce": __cross_entropy_diff,
-    "ce_i": __cross_entropy_improved,
-    "mse": __mean_square_error_diff,
-    "mae": __mean_absolute_error_diff
+    "cross entropy": __cross_entropy_diff,
+    "cross entropy improved": __cross_entropy_improved,
+    "mean square error": __mean_square_error_diff,
+    "mean absolute error": __mean_absolute_error_diff
 }
